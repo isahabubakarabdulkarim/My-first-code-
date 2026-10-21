@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Amazing Random Facts</title>
+    <style>
+      :root {
+        --bg-1: #0f172a;
+        --bg-2: #1e293b;
+        --panel: rgba(15, 23, 42, 0.7);
+        --card: rgba(255, 255, 255, 0.08);
+        --text: #e2e8f0;
+        --muted: #cbd5e1;
+        --primary: #8b5cf6;
+        --secondary: #22d3ee;
+        --accent: #f59e0b;
+        --success: #34d399;
+        --shadow: rgba(15, 23, 42, 0.35);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html, body {
+        margin: 0;
+        min-height: 100%;
+        font-family: Arial, Helvetica, sans-serif;
+        background: linear-gradient(135deg, var(--bg-1), var(--bg-2), #312e81);
+        color: var(--text);
+      }
+
+      body {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+      }
+
+      .page {
+        width: min(100%, 820px);
+      }
+
+      .app {
+        position: relative;
+        background: rgba(15, 23, 42, 0.72);
+        border: 1px solid rgba(148, 163, 184, 0.2);
+        border-radius: 28px;
+        box-shadow: 0 30px 80px var(--shadow);
+        overflow: hidden;
+        backdrop-filter: blur(14px);
+      }
+
+      .app::before,
+      .app::after {
+        content: "";
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(18px);
+        opacity: 0.5;
+      }
+
+      .app::before {
+        width: 220px;
+        height: 220px;
+        background: rgba(139, 92, 246, 0.4);
+        top: -70px;
+        right: -30px;
+      }
+
+      .app::after {
+        width: 240px;
+        height: 240px;
+        background: rgba(34, 211, 238, 0.35);
+        left: -70px;
+        bottom: -60px;
+      }
+
+      .content {
+        position: relative;
+        z-index: 1;
+        padding: 32px 28px 26px;
+      }
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 14px;
+        border-radius: 999px;
+        background: rgba(139, 92, 246, 0.16);
+        border: 1px solid rgba(139, 92, 246, 0.4);
+        color: #ddd6fe;
+        font-size: 0.78rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        font-weight: 700;
+      }
+
+      h1 {
+        margin: 18px 0 12px;
+        font-size: clamp(2.2rem, 5vw, 4rem);
+        line-height: 1.1;
+        letter-spacing: -0.06em;
+      }
+
+      .subtitle {
+        margin: 0 0 26px;
+        color: var(--muted);
+        font-size: 1.08rem;
+        max-width: 52ch;
+      }
+
+      .fact-box {
+        background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.04));
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 22px;
+        padding: 24px;
+        box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
+      }
+
+      .category-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 18px;
+      }
+
+      .category-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        min-width: fit-content;
+        padding: 9px 14px;
+        border-radius: 999px;
+        background: rgba(52, 211, 153, 0.12);
+        border: 1px solid rgba(52, 211, 153, 0.35);
+        color: #d1fae5;
+        font-weight: 700;
+        font-size: 0.82rem;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+      }
+
+      .dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--success);
+        box-shadow: 0 0 10px rgba(52, 211, 153, 0.9);
+      }
+
+      .fact {
+        margin: 0;
+        font-size: clamp(1.2rem, 2vw, 1.7rem);
+        line-height: 1.65;
+        letter-spacing: -0.02em;
+      }
+
+      .actions {
+        margin-top: 24px;
+        display: flex;
+        justify-content: center;
+      }
+
+      button {
+        appearance: none;
+        border: none;
+        cursor: pointer;
+        background: linear-gradient(135deg, var(--primary), #ec4899);
+        color: white;
+        padding: 16px 26px;
+        border-radius: 999px;
+        font-size: 1.02rem;
+        font-weight: 800;
+        letter-spacing: 0.02em;
+        box-shadow: 0 18px 28px rgba(139, 92, 246, 0.4);
+        transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+      }
+
+      button:hover {
+        transform: translateY(-2px) scale(1.01);
+        box-shadow: 0 22px 30px rgba(139, 92, 246, 0.52);
+        filter: brightness(1.05);
+      }
+
+      button:active {
+        transform: translateY(0) scale(0.99);
+      }
+
+      @media (max-width: 600px) {
+        body {
+          padding: 18px;
+        }
+
+        .content {
+          padding: 24px 18px 20px;
+        }
+
+        .category-row {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .fact-box {
+          padding: 18px 16px;
+        }
+
+        button {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <section class="app" aria-live="polite">
+        <div class="content">
+          <div class="badge">✨ Fun Facts</div>
+          <h1>Amazing Random Facts</h1>
+          <p class="subtitle">
+            Discover cool facts about animals, science, space, and the world. Each click brings a new wonder.
+          </p>
+
+          <div class="fact-box">
+            <div class="category-row">
+              <span id="category" class="category-pill"><span class="dot"></span>Animals</span>
+            </div>
+            <p id="fact" class="fact">
+              Octopuses have three hearts: two pump blood to the gills and one pumps it to the rest of the body.
+            </p>
+          </div>
+
+          <div class="actions">
+            <button id="newFactBtn" type="button">Show Another Fact</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const facts = [
+        { category: 'Animals', fact: 'Octopuses have three hearts: two pump blood to the gills, and one pumps it to the rest of the body.' },
+        { category: 'Animals', fact: 'A blue whale is the loudest animal on Earth, and its call can travel for hundreds of miles underwater.' },
+        { category: 'Animals', fact: 'Honeybees communicate with each other by dancing to show where flowers are.' },
+        { category: 'Science', fact: 'Your brain uses around 20% of your body’s total energy, even though it is only about 2% of your body weight.' },
+        { category: 'Science', fact: 'Water can actually exist in three states at the same time under very specific conditions, including as a liquid and a gas.' },
+        { category: 'Science', fact: 'Atoms are mostly empty space, so matter feels solid because of the forces between particles.' },
+        { category: 'Space', fact: 'The Moon is slowly drifting away from Earth by about 3.8 centimeters each year.' },
+        { category: 'Space', fact: 'A day on Venus is longer than a year on Venus because it spins very slowly.' },
+        { category: 'Space', fact: 'There are more stars in the universe than grains of sand on all the beaches on Earth.' },
+        { category: 'World', fact: 'The Great Wall of China is so long that it is visible from space under the right conditions, though not easily.' },
+        { category: 'World', fact: 'There are more than 7,000 languages spoken across the world today.' },
+        { category: 'World', fact: 'The Sahara Desert is expanding, and some parts of it are moving southward over time.' },
+        { category: 'Animals', fact: 'A group of flamingos is called a flamboyance.' },
+        { category: 'Science', fact: 'Bananas are berries, but strawberries are not.' },
+        { category: 'Space', fact: 'Neptune is so far from the Sun that a single day there lasts about 16 hours, but a year lasts 165 Earth years.' },
+        { category: 'World', fact: 'The city of Istanbul sits on two continents: Europe and Asia.' }
+      ];
+
+      const categoryEl = document.getElementById('category');
+      const factEl = document.getElementById('fact');
+      const button = document.getElementById('newFactBtn');
+
+      function getRandomFact() {
+        const randomIndex = Math.floor(Math.random() * facts.length);
+        const item = facts[randomIndex];
+
+        categoryEl.innerHTML = '<span class="dot"></span>' + item.category;
+        factEl.textContent = item.fact;
+      }
+
+      button.addEventListener('click', getRandomFact);
+      getRandomFact();
+    </script>
+  </body>
+</html>
